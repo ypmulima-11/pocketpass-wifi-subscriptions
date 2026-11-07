@@ -1,10 +1,95 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f5f3ed"><title>Wi-Fi access · PocketPass</title><link rel="stylesheet" href="portal.css"></head>
-<body><main class="shell"><header><a href="/" class="brand"><span>p</span> pocketpass</a><div class="secure">● SECURE WI-FI ACCESS</div></header><section class="intro"><div class="eyebrow">WELCOME TO THE NETWORK</div><h1>Your time.<br><em>Your connection.</em></h1><p>Sign in with your PocketPass account or choose a pass to get online.</p></section>
-<div class="tabs" role="tablist"><button class="tab active" data-view="login">Log in</button><button class="tab" data-view="plans">Get a pass</button></div>
-<section id="login-view" class="view"><form id="login-form"><label>Mobile number<input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+255 7XX XXX XXX" required></label><label>Password<input name="password" type="password" autocomplete="current-password" placeholder="At least 10 characters" minlength="10" required></label><button class="primary" id="auth-submit">Log in securely <span>→</span></button></form><p class="hint"><span id="auth-switch-label">New here?</span> <button class="inline" id="auth-switch" type="button">Create an account</button> · <button class="inline" data-goto="plans">Choose a pass</button></p></section>
-<section id="plans-view" class="view hidden"><div id="plan-list" class="plan-list"><div class="loading">Loading available passes…</div></div><form id="payment-form" class="hidden"><button type="button" id="back-plans" class="back">← Back to passes</button><div class="selected" id="selected-plan"></div><label>Mobile money number<input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+255 7XX XXX XXX" required></label><label>Pay with<select name="provider" required><option value="mpesa">Vodacom M-Pesa</option><option value="airtel">Airtel Money</option><option value="halopesa">HaloPesa</option><option value="yas">Mixx by Yas</option></select></label><button class="primary">Send payment prompt <span>→</span></button></form></section>
-<section id="waiting" class="status hidden"><div class="spinner"></div><h2>Check your phone</h2><p>Approve the mobile money prompt with your MNO PIN. Keep this page open while we confirm your payment.</p><div class="status-line" id="payment-status">Waiting for approval…</div><button id="cancel-wait" class="inline">Choose another pass</button><button id="demo-confirm" class="demo hidden">Demo only · Simulate confirmed payment</button></section>
-<section id="success" class="status hidden"><div class="success-mark">✓</div><h2>You’re connected.</h2><p>Your pass is active. Return to the Wi-Fi sign-in screen or try opening a webpage.</p><button class="primary" id="done">Done <span>✓</span></button></section>
-<section id="account-view" class="status hidden"><div class="eyebrow">YOUR POCKETPASS</div><h2>Welcome back.</h2><p id="account-info"></p><button class="primary" id="account-connect">Connect this device <span>→</span></button><button class="inline" id="logout">Log out</button></section>
-<footer><span>Offline content needs a connection to download.</span><a href="#help">Need help?</a></footer></main><div id="toast" role="status" aria-live="polite"></div><script src="portal.js"></script></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f3f5f0">
+  <meta name="description" content="Sign in or choose a PocketPass Wi-Fi access pass.">
+  <title>Wi-Fi access · PocketPass</title>
+  <link rel="stylesheet" href="portal.css">
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <a href="/" class="brand" aria-label="PocketPass home"><span class="brand-mark">p</span> pocketpass</a>
+      <span class="network-pill"><i></i> WI-FI SIGN IN</span>
+    </header>
+
+    <section class="intro">
+      <div class="eyebrow">WELCOME</div>
+      <h1>Get online<br><em>for the time you need.</em></h1>
+      <p>Sign in to your account or pick a pass. Pay with mobile money and we’ll confirm it here.</p>
+    </section>
+
+    <section class="portal-card" aria-label="Wi-Fi account and access passes">
+      <div class="tabs" role="tablist" aria-label="Choose sign in or pass">
+        <button class="tab active" id="tab-login" type="button" role="tab" aria-selected="true" data-view="login">Sign in</button>
+        <button class="tab" id="tab-plans" type="button" role="tab" aria-selected="false" data-view="plans">Buy a pass</button>
+      </div>
+
+      <section id="login-view" class="view" role="tabpanel" aria-labelledby="tab-login">
+        <form id="login-form">
+          <label>Mobile number
+            <input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+255 7XX XXX XXX" required>
+          </label>
+          <label>Password
+            <input name="password" type="password" autocomplete="current-password" placeholder="Your password" minlength="10" required>
+          </label>
+          <button class="primary" id="auth-submit">Sign in <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="switch-copy"><span id="auth-switch-label">New to PocketPass?</span> <button class="text-link" id="auth-switch" type="button">Create an account</button></p>
+        <p class="fine-print">Your phone number is used to manage your pass and payment.</p>
+      </section>
+
+      <section id="plans-view" class="view hidden" role="tabpanel" aria-labelledby="tab-plans">
+        <div class="section-intro"><h2>Choose a pass</h2><p>Time and data are shown before you pay.</p></div>
+        <div id="plan-list" class="plan-list"><div class="loading">Loading passes…</div></div>
+        <form id="payment-form" class="hidden">
+          <button type="button" id="back-plans" class="back-link">← All passes</button>
+          <div class="selected-plan" id="selected-plan"></div>
+          <label>Mobile money number
+            <input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+255 7XX XXX XXX" required>
+          </label>
+          <label>Mobile money service
+            <select name="provider" required>
+              <option value="mpesa">Vodacom M-Pesa</option>
+              <option value="airtel">Airtel Money</option>
+              <option value="halopesa">HaloPesa</option>
+              <option value="yas">Mixx by Yas</option>
+            </select>
+          </label>
+          <p class="payment-hint">We’ll send a request to this number. Check the amount before approving it on your phone.</p>
+          <button class="primary">Pay by phone <span aria-hidden="true">→</span></button>
+        </form>
+      </section>
+
+      <section id="waiting" class="status hidden" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div><div class="eyebrow">PAYMENT REQUEST SENT</div>
+        <h2>Check your phone</h2>
+        <p>Approve the request with your mobile money PIN. Keep this page open while we check the result.</p>
+        <div class="status-line" id="payment-status">Waiting for confirmation…</div>
+        <button id="cancel-wait" class="text-link" type="button">Back to passes</button>
+        <button id="demo-confirm" class="demo hidden" type="button">Demo only · Simulate payment</button>
+      </section>
+
+      <section id="success" class="status hidden" aria-live="polite">
+        <div class="success-mark" aria-hidden="true">✓</div><div class="eyebrow">PAYMENT CONFIRMED</div>
+        <h2>Thanks. Your pass is paid.</h2>
+        <p>The network may take a moment to open this device. If you’re still offline, close this window and reconnect to Wi-Fi.</p>
+        <button class="primary" id="done" type="button">Done <span aria-hidden="true">✓</span></button>
+      </section>
+
+      <section id="account-view" class="status hidden">
+        <div class="success-mark" aria-hidden="true">✓</div><div class="eyebrow">ACTIVE PASS</div>
+        <h2>You’re signed in.</h2><p id="account-info"></p>
+        <button class="primary" id="account-connect" type="button">Continue <span aria-hidden="true">→</span></button>
+        <button class="text-link logout" id="logout" type="button">Sign out</button>
+      </section>
+    </section>
+
+    <footer><span>Need help? Ask the Wi-Fi provider.</span><span>Payments in TZS</span></footer>
+  </main>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="portal.js"></script>
+</body>
+</html>

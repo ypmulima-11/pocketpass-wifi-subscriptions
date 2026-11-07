@@ -12,9 +12,9 @@ Requirements: Docker Desktop with Compose. From this directory:
 docker compose up --build
 ```
 
-Open `http://localhost:3000/portal.html`. Create an account using a Tanzanian phone number (for example `+255712345678`) and a password of at least 10 characters. Select a plan, choose a wallet, and use the explicitly labeled **Demo only** button to exercise fulfillment. Local default credentials in `docker-compose.yml` are for development only.
+Open `http://localhost:3000/`. Create an account using a Tanzanian phone number (for example `+255712345678`) and a password of at least 10 characters. Select a plan, choose a wallet, and use the explicitly labeled **Demo only** button to exercise fulfillment. Local default credentials in `docker-compose.yml` are for development only.
 
-The public homepage is at `/`; the captive portal view is `/portal.html`.
+The captive portal is served at `/` and `/portal.html`. The original PocketPass concept page is available at `/home`.
 
 ## API
 

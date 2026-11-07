@@ -33,7 +33,8 @@ app.post('/v1/webhooks/:provider', express.raw({ type: 'application/json', limit
 });
 app.use(express.json({ limit: '32kb' }));
 const sendFile = name => (_req,res) => res.sendFile(fileURLToPath(new URL(`../${name}`, import.meta.url)));
-app.get('/',sendFile('index.html'));
+app.get('/',sendFile('portal.html'));
+app.get('/home',sendFile('index.html'));
 app.get('/index.html',sendFile('index.html'));
 app.get('/styles.css',sendFile('styles.css'));
 app.get('/app.js',sendFile('app.js'));

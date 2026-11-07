@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: pocketpass
+      POSTGRES_USER: pocketpass
+      POSTGRES_PASSWORD: pocketpass
+    ports: ["5432:5432"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./server/schema.sql:/docker-entrypoint-initdb.d/001-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pocketpass -d pocketpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  api:
+    build: .
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_URL: postgres://pocketpass:pocketpass@db:5432/pocketpass
+      APP_ORIGIN: http://localhost:3000
+      SESSION_SECRET: local-development-secret-change-this-32-bytes
+      PAYMENT_DRIVER: mock
+      PAYMENT_WEBHOOK_SECRET: development-only-change-me
+    ports: ["3000:3000"]
+    depends_on:
+      db: { condition: service_healthy }
+volumes:
+  pgdata:
